@@ -1,2 +1,0 @@
-# Scaler-Java
-Scaler codes
