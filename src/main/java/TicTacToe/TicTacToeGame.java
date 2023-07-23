@@ -1,5 +1,6 @@
 package main.java.TicTacToe;
 
+import main.java.TicTacToe.controllers.GameController;
 import main.java.TicTacToe.models.*;
 
 import java.util.ArrayList;
@@ -35,6 +36,31 @@ public class TicTacToeGame {
                 players.add(new Player(name, symbol.charAt(0), PlayerType.HUMAN));
             }
         }
+
+        GameController gameController = new GameController();
+        Game game = gameController.createGame(dimension, players);
+
+        // Players will start playing the game
+        while (game.getGameStatus().equals(GameStatus.IN_PROGRESS)) {
+            System.out.println("This is the current board ..");
+            gameController.displayBoard(game);
+
+            System.out.println("Do you want to UNDO ? y/n");
+            String input = scanner.next();
+            if(input.equals("y")) {
+                gameController.undo(game);
+            }
+            else {
+                gameController.executeNextMove(game);
+            }
+
+        }
+        // either someone has won the game or the game is DRAWN
+        System.out.println(" The Game has ended");
+        if(game.getGameStatus().equals(GameStatus.ENDED)) {
+            System.out.println(" Winner of Game is "+ gameController.getWinner(game).getPlayerName());
+        }
+
 
 
 

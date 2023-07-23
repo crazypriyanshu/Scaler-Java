@@ -30,7 +30,8 @@ public class GameController {
     }
 
     public void executeNextMove(Game game) {
-        //
+        // No implementation, as this is controller class
+        game.makeNextMove();
     }
 
     public GameStatus getGameStatus(Game game) {

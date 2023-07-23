@@ -1,5 +1,7 @@
 package main.java.TicTacToe.models;
 
+import main.java.TicTacToe.Strategies.GameWinningStrategy.GameWinningStrategy;
+import main.java.TicTacToe.Strategies.GameWinningStrategy.OrderOneWinningStrategy;
 import main.java.TicTacToe.exceptions.InvalidGameBuildExceptions;
 
 import java.util.ArrayList;
@@ -13,6 +15,17 @@ public class Game {
     private GameStatus gameStatus;
     private int nextPlayerIndex;
     private Player winner;
+
+
+    private GameWinningStrategy gameWinningStrategy;
+
+    public GameWinningStrategy getGameWinningStrategy() {
+        return gameWinningStrategy;
+    }
+
+    public void setGameWinningStrategy(GameWinningStrategy gameWinningStrategy) {
+        this.gameWinningStrategy = gameWinningStrategy;
+    }
 
     public Board getBoard() {
         return board;
@@ -62,6 +75,40 @@ public class Game {
         this.moves = moves;
     }
 
+    public void makeNextMove() {
+        // should make a next move
+        // 1. Which player's turn is this
+        // 2.
+        Player playerToMove = players.get(nextPlayerIndex);
+        System.out.println("It is : "+playerToMove.getPlayerName()+ "'s turn");
+        Move move = playerToMove.decideMove(this.board);
+        int row = move.getCell().getRow();
+        int col = move.getCell().getCol();
+        System.out.println(" Player is playing the move at "+ row+ " , "+ col);
+        // Assumption : move is valid
+        board.getBoard().get(row).get(col).setCellState(CellState.FILLED);
+        board.getBoard().get(row).get(col).setPlayer(playerToMove);
+
+
+        // Add the current move to the list of moves
+        this.moves.add(move);
+
+        // Check the winner:
+        if (gameWinningStrategy.checkWinner(board, playerToMove, move.getCell())) {
+            this.setGameStatus(GameStatus.ENDED);
+            winner = playerToMove;
+        }
+
+        // Check for Draw
+
+        // Go to next player
+        nextPlayerIndex += 1;
+        nextPlayerIndex %= players.size();
+
+
+
+    }
+
     public static Builder getBuilder() {
         return new Builder();
     }
@@ -91,6 +138,7 @@ public class Game {
             game.setPlayers(players);
             game.setMoves(new ArrayList<>());
             game.setNextPlayerIndex(0);
+            game.setGameWinningStrategy(new OrderOneWinningStrategy(dimension));
 
             return game;
         }
