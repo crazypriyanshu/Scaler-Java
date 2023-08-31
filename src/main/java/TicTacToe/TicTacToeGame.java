@@ -29,9 +29,9 @@ public class TicTacToeGame {
         }
         else {
             for (int i =0; i< numberOfHumanPlayers; i++) {
-                System.out.println(" What is the name of the player "+ i+1);
+                System.out.println(" What is the name of the player "+ (i+1));
                 String name = scanner.next();
-                System.out.println(" What is the symbol of the player "+ i+1);
+                System.out.println(" What is the symbol of the player "+ (i+1));
                 String symbol = scanner.next();
                 players.add(new Player(name, symbol.charAt(0), PlayerType.HUMAN));
             }

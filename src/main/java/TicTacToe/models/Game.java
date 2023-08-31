@@ -82,6 +82,8 @@ public class Game {
         Player playerToMove = players.get(nextPlayerIndex);
         System.out.println("It is : "+playerToMove.getPlayerName()+ "'s turn");
         Move move = playerToMove.decideMove(this.board);
+
+        // Validate the move decided by the player
         int row = move.getCell().getRow();
         int col = move.getCell().getCol();
         System.out.println(" Player is playing the move at "+ row+ " , "+ col);
